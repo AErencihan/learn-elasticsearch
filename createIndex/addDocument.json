@@ -1,4 +1,4 @@
-POST /products/_doc
+#POST /products/_doc
 {
   "product_id": 1,
   "name": "MacBook Pro",

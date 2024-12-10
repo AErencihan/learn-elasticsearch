@@ -1,4 +1,4 @@
-PUT /products
+#PUT /products
 {
   "settings": {
     "number_of_shards": 1,
