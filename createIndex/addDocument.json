@@ -1,0 +1,24 @@
+POST /products/_doc
+{
+  "product_id": 1,
+  "name": "MacBook Pro",
+  "price": 2500.99,
+  "category": "Electronics",
+  "stock": 50,
+  "release_date": "2023-10-15"
+}
+
+
+PUT /products/_doc/2
+{
+  "product_id": 2,
+  "name": "iPhone 15",
+  "price": 1200.00,
+  "category": "Electronics",
+  "stock": 100,
+  "release_date": "2023-09-22"
+}
+
+
+// get all document ;
+GET /products/_search

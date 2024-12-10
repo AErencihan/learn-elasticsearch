@@ -1,0 +1,193 @@
+//Match query;
+
+GET /products/_search
+{
+  "query": {
+    "match": {
+      "category": "Electronics"
+    }
+  }
+}
+
+
+
+//Bool query
+
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+
+         {"match": { "category": "Electronics"}},
+
+         {"range": { "price": { "gte": 2000 }}}
+
+      ]
+    }
+
+  }
+}
+
+// Aggregation
+        1. Bucket Aggregation
+
+1.1. Term Aggregation; Belirli bir alanın benzersiz değerlerini ve frekanslarını analiz eder.
+Örneğin, her kategorideki ürün sayısını bulalım:
+
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "categories_count": {
+      "terms": {
+        "field": "category"
+      }
+    }
+  }
+}
+
+
+1.2. Range Aggregation; Bir alanın değerlerini aralıklara göre gruplar. Fiyat aralıklarını analiz edelim:
+
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "price_ranges": {
+      "range": {
+        "field": "price",
+        "ranges": [
+            {"to": 1000},
+            {"from": 50, "to":2000},
+            {"to": 100}
+        ]
+      }
+    }
+  }
+}
+
+
+1.3 Date Histogram; Belirli bir tarih alanını gruplara ayırır.
+Örneğin, ürünlerin satış tarihlerini aylık gruplara göre analiz edelim:
+
+
+2. Metric Aggregation;
+Metric Aggregation, sayısal veri üzerinden metrikler üretir (ortalama, toplam, maksimum, vb.)
+
+2.1 AVG Aggregation;
+
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "avg_aggregation":{
+      "avg": {
+        "field": "price"
+      }
+    }
+  }
+}
+
+
+2.2. Stats Aggregation;
+Bir alanın minimum, maksimum, ortalama, toplam gibi değerlerini topluca getirir.
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "stats_agg":{
+      "stats": {
+        "field": "price"
+      }
+    }
+  }
+}
+
+
+3. Nested Aggregation
+Aggregation’ları iç içe kullanarak karmaşık analizler yapılabilir.
+Örneğin, her kategori için fiyat ortalamasını bulalım:
+
+GET /products/_search
+{
+  "size": 0,
+  "aggs": {
+    "term_query":{
+      "terms": {
+        "field": "category",
+        "size": 10
+      },
+
+      "aggs": {
+        "avg_query":{
+          "avg": {
+            "field": "price"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+Sorting (Sıralama)
+1. Temel Sıralama ; Belirli bir alanı sıralamak için sort parametresi kullanılır.
+Fiyatlara göre artan sıralama yapalım:
+
+GET /products/_search
+{
+  "sort": [
+      {"price": "asc"}
+  ]
+}
+
+
+Filtering ve Sorgu Performansı
+1. Query vs. Filter ;
+
+Query: Scoring (puanlama) yapılır; tam metin araması için uygundur.
+Filter: Puanlama yapılmaz; doğruluk önemlidir, hızlıdır.
+
+GET /products/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        { "term": { "category": "Electronics" } }
+      ]
+    }
+  }
+}
+
+2. Cache Kullanımı
+Filter sorguları önbelleğe alınır. Aynı filtreler tekrar çalıştırıldığında daha hızlı sonuç döner.
+
+
+Pipeline Aggregation
+Pipeline Aggregation, başka bir aggregation sonucunu işlemek için kullanılır.
+
+Moving Average
+Tarihsel veriler üzerinde hareketli ortalama hesaplama:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
