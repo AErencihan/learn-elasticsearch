@@ -1,6 +1,6 @@
 //Match query;
 
-GET /products/_search
+#GET /products/_search
 {
   "query": {
     "match": {
@@ -30,7 +30,7 @@ GET /products/_search
 }
 
 // Aggregation
-        1. Bucket Aggregation
+1. Bucket Aggregation
 
 1.1. Term Aggregation; Belirli bir alanın benzersiz değerlerini ve frekanslarını analiz eder.
 Örneğin, her kategorideki ürün sayısını bulalım:
